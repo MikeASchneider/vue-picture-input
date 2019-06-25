@@ -141,6 +141,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    autoAdjustHeight: {
+      type: [Boolean],
+      default: false
     }
   },
   watch: {
@@ -342,7 +346,11 @@ export default {
       let offsetY = 0
       let scaledWidth = this.previewWidth
       let scaledHeight = this.previewHeight
-      const previewRatio = this.previewWidth / this.previewHeight
+      let previewRatio = this.previewWidth / this.previewHeight
+      if (this.autoAdjustHeight) {
+        previewRatio = this.imageRatio
+        this.previewHeight =  this.previewWidth / this.imageRatio
+      }
       if (this.crop) {
         if (this.imageRatio >= previewRatio) {
           scaledWidth = scaledHeight * this.imageRatio
